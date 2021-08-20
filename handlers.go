@@ -1,20 +1,22 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 type Project struct {
-	ID    string `json:"id"`
-	PodID string `json:"value"`
+	ID      string `json:"id"`
+	PodName string `json:"value"`
 }
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to the RCK!"))
 }
 
-func resultHandler(w http.ResponseWriter, r *http.Request) {
+func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
 	ns := "default"
@@ -27,13 +29,15 @@ func resultHandler(w http.ResponseWriter, r *http.Request) {
 
 	pods := getPods(clientset, ns)
 	// print pods
+
 	for i, pod := range pods.Items {
 		fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte(pod.GetName() + "\n"))
+		w.Write([]byte("Pod Name: " + pod.GetName() + "Namespace: " + ns + "\n"))
 	}
 
 }
 
+// Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {
 	health := "Healthy"
 	_, err := w.Write([]byte(health + "\n"))
@@ -41,4 +45,26 @@ func returnHealth(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+}
+
+// Return the Hostname of the node where is running
+func returnHostname(w http.ResponseWriter, r *http.Request) {
+
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+
+	w.WriteHeader(http.StatusOK)
+
+	hostname, err := os.Hostname()
+	if err != nil {
+		hostname = "Unknown"
+	}
+
+	hostnameStr := "Hostname: " + hostname
+
+	// return the hostname in json format
+	if err := json.NewEncoder(w).Encode(hostnameStr); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
 }

@@ -11,7 +11,10 @@ func ConfigureRouter() *mux.Router {
 	// router.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
 	router.HandleFunc("/", homeHandler)
-	router.HandleFunc("/result", resultHandler)
+	router.HandleFunc("/projects", projectsHandler)
+	router.HandleFunc("/health", returnHealth)
+	router.HandleFunc("/host", returnHostname)
+	router.HandleFunc("/test", test)
 
 	return router
 }
