@@ -32,10 +32,11 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 
 	for i, pod := range pods.Items {
 		fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("Pod Name: " + pod.GetName() + "Namespace: " + ns + "\n"))
+		w.Write([]byte("Pod Name: " + pod.GetName() + "  Namespace: " + ns + "\n"))
 	}
 
 }
+
 
 // Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {
