@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    run: rck
+    app: rck
   name: rck
 spec:
   ports:
@@ -10,6 +10,6 @@ spec:
     protocol: TCP
     targetPort: 8080
   selector:
-    run: rck
+    app: rck
 status:
   loadBalancer: {}
