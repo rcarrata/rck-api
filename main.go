@@ -15,7 +15,7 @@ func main() {
 	port := ":" + os.Getenv("PORT")
 
 	// Configure Mux Router and Initialize the routes
-	router := ConfigureRouter()
+	router := api.ConfigureRouter()
 
 	// Run the Mux Router with the specific config
 	log.Printf("Server running in port %s", port)
