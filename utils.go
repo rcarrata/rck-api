@@ -37,7 +37,7 @@ func loadApiConfig(key string) string {
 	// Set the location and the name of the config file
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")
-	viper.AddConfigPath(".")
+	viper.AddConfigPath("config")
 
 	err := viper.ReadInConfig()
 	if err != nil {
