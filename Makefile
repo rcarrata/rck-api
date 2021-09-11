@@ -2,18 +2,19 @@ all: build tag push
 test: lint unit-test
 
 NAME=in-cluster
-VERSION=0.9
+VERSION=0.9.1
 REGISTRY="quay.io/rcarrata"
+TOOL="docker"
 
 install:
 	@go build .
 
 build: 
 	@go version
-	@podman build -t localhost/in-cluster:${VERSION} .
+	@${TOOL} build -t localhost/in-cluster:${VERSION} .
 	
 tag:
-	@podman tag localhost/in-cluster:${VERSION} ${REGISTRY}/${NAME}:${VERSION}
+	@${TOOL} tag localhost/in-cluster:${VERSION} ${REGISTRY}/${NAME}:${VERSION}
 
 push: 
-	@podman push ${REGISTRY}/${NAME}:${VERSION}
+	@${TOOL} push ${REGISTRY}/${NAME}:${VERSION}
