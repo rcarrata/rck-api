@@ -1,7 +1,10 @@
 package main
 
 import (
+	"encoding/json"
+	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/spf13/viper"
 	"k8s.io/client-go/kubernetes"
@@ -48,4 +51,18 @@ func loadApiConfig(key string) string {
 	}
 
 	return config
+}
+
+// Marshal the json content and send it as response of the API
+func sendJsonResponse(jsoncontent Health, w http.ResponseWriter) {
+	jsonResponse, err := json.Marshal(jsoncontent)
+	if err != nil {
+		fmt.Println("Unable to encode JSON")
+	}
+
+	// fmt.Println(string(jsonResponse))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+
 }

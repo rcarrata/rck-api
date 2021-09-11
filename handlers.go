@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/gorilla/mux"
 )
 
 type Project struct {
@@ -42,36 +44,47 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func getProjectHandler(w http.ResponseWriter, r *http.Request) {
+
+	// Return the Id in the request of the path
+	vars := mux.Vars(r)
+
+	// Asign the NS from the Id
+	ns := vars["Id"]
+	// fmt.Fprintln(w, "Project Id:", ns)
+
+	clientset, err := createKubeClient()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	pods := getPods(clientset, ns)
+	// print pods
+
+	w.WriteHeader(http.StatusOK)
+
+	for i, pod := range pods.Items {
+		fmt.Printf("[%d] %s\n", i, pod.GetName())
+		w.Write([]byte("Pod Name: " + pod.GetName() + "  Namespace: " + ns + "\n"))
+	}
+
+}
+
 // Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {
 	// health := "Healthy"
 	health := Health{Status: "Healthy"}
 
-	jsonResponse, err := json.Marshal(health)
-	if err != nil {
-		fmt.Println("Unable to encode JSON")
-	}
-
-	// fmt.Println(string(jsonResponse))
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(jsonResponse)
+	sendJsonResponse(health, w)
 }
 
-// Return Healthy (future Prometheus integration)
+// Return Unhealthy (future Prometheus integration)
 func returnUnhealth(w http.ResponseWriter, r *http.Request) {
 	// health := "Unhealth"
 	health := Health{Status: "Unhealth"}
 
-	jsonResponse, err := json.Marshal(health)
-	if err != nil {
-		fmt.Println("Unable to encode JSON")
-	}
-
-	// fmt.Println(string(jsonResponse))
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(jsonResponse)
+	sendJsonResponse(health, w)
 }
 
 // Return the Hostname of the node where is running
