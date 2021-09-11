@@ -1,4 +1,4 @@
-all: install build tag push
+all: build tag push
 test: lint unit-test
 
 NAME=in-cluster
