@@ -12,6 +12,7 @@ type Project struct {
 	PodName string `json:"value"`
 }
 
+// Home Page Handler
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to the RCK!"))
 }
@@ -36,7 +37,6 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
 
 // Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {

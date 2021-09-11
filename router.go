@@ -8,6 +8,14 @@ import (
 func ConfigureRouter() *mux.Router {
 	router := mux.NewRouter()
 
+	// Initialize the routes for the API
+	initializeRoutes(router)
+
+	return router
+}
+
+func initializeRoutes(router *mux.Router) {
+
 	// router.PathPrefix("/static").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
 	router.HandleFunc("/", homeHandler)
@@ -16,5 +24,4 @@ func ConfigureRouter() *mux.Router {
 	router.HandleFunc("/host", returnHostname)
 	router.HandleFunc("/test", test)
 
-	return router
 }

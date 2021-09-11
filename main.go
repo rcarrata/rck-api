@@ -10,9 +10,10 @@ import (
 
 func main() {
 
-	// TODO: convert to a 
+	// TODO: convert to a config file and import
 	port := ":8080"
 
+	// Configure Mux Router and Initialize the routes
 	router := ConfigureRouter()
 
 	log.Printf("Server running in port %s", port)
