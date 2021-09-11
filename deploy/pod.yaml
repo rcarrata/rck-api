@@ -11,6 +11,9 @@ spec:
   - image: quay.io/rcarrata/in-cluster:0.7.5
     name: rck
     resources: {}
+    envFrom:
+    - configMapRef:
+        name: rck-config
   dnsPolicy: ClusterFirst
   restartPolicy: Always
 status: {}

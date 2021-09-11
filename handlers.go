@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -38,9 +37,9 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	pods := getPods(clientset, ns)
 	// print pods
 
-	for i, pod := range pods.Items {
-		fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("Pod Name: " + pod.GetName() + "  Namespace: " + ns + "\n"))
+	for _, pod := range pods.Items {
+		// fmt.Printf("[%d] %s\n", i, pod.GetName())
+		w.Write([]byte("[%d] Pod Name: " + pod.GetName() + " Namespace: " + ns + "\n"))
 	}
 
 }
@@ -66,8 +65,8 @@ func getProjectHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 
-	for i, pod := range pods.Items {
-		fmt.Printf("[%d] %s\n", i, pod.GetName())
+	for _, pod := range pods.Items {
+		// fmt.Printf("[%d] %s\n", i, pod.GetName())
 		w.Write([]byte("Pod Name: " + pod.GetName() + "  Namespace: " + ns + "\n"))
 	}
 
