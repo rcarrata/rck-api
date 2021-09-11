@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: rck
+  name: rck
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rck
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: rck
+    spec:
+      containers:
+      - image: quay.io/rcarrata/in-cluster:0.8
+        name: in-cluster
+        resources: {}
+        envFrom:
+        - configMapRef:
+            name: rck-config

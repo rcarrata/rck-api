@@ -37,6 +37,7 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	pods := getPods(clientset, ns)
 	// print pods
 
+	w.Write([]byte("Pod Name - Namespace \n"))
 	for _, pod := range pods.Items {
 		// fmt.Printf("[%d] %s\n", i, pod.GetName())
 		w.Write([]byte("Pod Name: " + pod.GetName() + "- Namespace: " + ns + "\n"))
@@ -65,6 +66,7 @@ func getProjectHandler(w http.ResponseWriter, r *http.Request) {
 
 	w.WriteHeader(http.StatusOK)
 
+	w.Write([]byte("Pod Name - Namespace \n"))
 	for _, pod := range pods.Items {
 		// fmt.Printf("[%d] %s\n", i, pod.GetName())
 		w.Write([]byte("Pod Name: " + pod.GetName() + "- Namespace: " + ns + "\n"))
