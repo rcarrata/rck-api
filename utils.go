@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/spf13/viper"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
@@ -29,28 +28,6 @@ func createKubeClient() (cl *kubernetes.Clientset, err error) {
 
 	return clientset, err
 
-}
-
-// Use Viper to Import the config file
-func loadApiConfig(key string) string {
-
-	// Set the location and the name of the config file
-	viper.SetConfigName("app")
-	viper.SetConfigType("env")
-	viper.AddConfigPath("config")
-
-	err := viper.ReadInConfig()
-	if err != nil {
-		log.Fatalf("Error while reading config file %s", err)
-	}
-
-	config, ok := viper.Get(key).(string)
-
-	if !ok {
-		log.Fatalf("Invalid type assertion")
-	}
-
-	return config
 }
 
 // Marshal the json content and send it as response of the API

@@ -11,7 +11,6 @@ import (
 func main() {
 
 	// Import from config.json file the listening Port Mux Router
-	// port := ":" + loadApiConfig("PORT")
 	port := ":" + os.Getenv("PORT")
 
 	// Configure Mux Router and Initialize the routes
