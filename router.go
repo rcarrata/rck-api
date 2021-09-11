@@ -21,6 +21,7 @@ func initializeRoutes(router *mux.Router) {
 	router.HandleFunc("/", homeHandler)
 	router.HandleFunc("/projects", projectsHandler)
 	router.HandleFunc("/health", returnHealth)
+	router.HandleFunc("/unhealth", returnUnhealth)
 	router.HandleFunc("/host", returnHostname)
 	router.HandleFunc("/test", test)
 

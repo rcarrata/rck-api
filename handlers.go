@@ -12,6 +12,10 @@ type Project struct {
 	PodName string `json:"value"`
 }
 
+type Health struct {
+	Status string `json:"Status"`
+}
+
 // Home Page Handler
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to the RCK!"))
@@ -40,12 +44,34 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 
 // Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {
-	health := "Healthy"
-	_, err := w.Write([]byte(health + "\n"))
+	// health := "Healthy"
+	health := Health{Status: "Healthy"}
+
+	jsonResponse, err := json.Marshal(health)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
+		fmt.Println("Unable to encode JSON")
 	}
+
+	// fmt.Println(string(jsonResponse))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
+}
+
+// Return Healthy (future Prometheus integration)
+func returnUnhealth(w http.ResponseWriter, r *http.Request) {
+	// health := "Unhealth"
+	health := Health{Status: "Unhealth"}
+
+	jsonResponse, err := json.Marshal(health)
+	if err != nil {
+		fmt.Println("Unable to encode JSON")
+	}
+
+	// fmt.Println(string(jsonResponse))
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(jsonResponse)
 }
 
 // Return the Hostname of the node where is running

@@ -1,9 +1,12 @@
-all: bin/example
+all: install build tag push
 test: lint unit-test
 
 NAME=in-cluster
 VERSION=0.6
 REGISTRY="quay.io/rcarrata"
+
+install:
+	@go build .
 
 build: 
 	@go version
