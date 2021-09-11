@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gorilla/handlers"
-	"github.com/rcarrata/rck/api"
+	"github.com/rcarrata/rck/pkg/api"
 )
 
 func main() {
