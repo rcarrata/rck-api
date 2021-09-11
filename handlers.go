@@ -23,6 +23,7 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Welcome to the RCK!"))
 }
 
+// Get objects from the project default
 func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 
@@ -44,6 +45,7 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+// Get objects from the Projects Ids from Path
 func getProjectHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Return the Id in the request of the path
