@@ -1,6 +1,6 @@
 namespace: default
 resources:
 - cm.yaml
-- pod.yaml
+- deployment.yaml
 - svc.yaml
 - rbac.yaml
