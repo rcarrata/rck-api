@@ -1,0 +1,6 @@
+namespace: default
+resources:
+- cm.yaml
+- pod.yaml
+- svc.yaml
+- rbac.yaml
