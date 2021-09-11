@@ -2,7 +2,7 @@ all: build tag push
 test: lint unit-test
 
 NAME=in-cluster
-VERSION=0.8.1
+VERSION=0.9
 REGISTRY="quay.io/rcarrata"
 
 install:
