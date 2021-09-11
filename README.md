@@ -1,9 +1,9 @@
 # RCK Api
 
-
+Small API to check resources in the k8s cluster
 
 ```
-kubectl create clusterrolebinding default-view --clusterrole=view --serviceaccount=default:default
+kubectl apply -k deploy/
 ```
 
 ```

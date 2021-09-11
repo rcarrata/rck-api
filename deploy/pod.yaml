@@ -8,7 +8,7 @@ metadata:
   namespace: default
 spec:
   containers:
-  - image: quay.io/rcarrata/in-cluster:0.8
+  - image: quay.io/rcarrata/in-cluster:0.8.1
     name: rck
     resources: {}
     envFrom:
