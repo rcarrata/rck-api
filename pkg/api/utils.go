@@ -43,3 +43,33 @@ func sendJsonResponse(jsoncontent Health, w http.ResponseWriter) {
 	w.Write(jsonResponse)
 
 }
+
+func (project *Projects) AddItem(item Project) {
+	project.Items = append(project.Items, item)
+}
+
+func aggregateProject() {
+	
+}
+
+// Not using Viper in this version
+// func loadApiConfig(key string) string {
+
+// 	// Set the location and the name of the config file
+// 	viper.SetConfigName("app")
+// 	viper.SetConfigType("env")
+// 	viper.AddConfigPath("config")
+
+// 	err := viper.ReadInConfig()
+// 	if err != nil {
+// 		log.Fatalf("Error while reading config file %s", err)
+// 	}
+
+// 	config, ok := viper.Get(key).(string)
+
+// 	if !ok {
+// 		log.Fatalf("Invalid type assertion")
+// 	}
+
+// 	return config
+// }

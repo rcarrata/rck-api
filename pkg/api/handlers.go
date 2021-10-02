@@ -2,15 +2,23 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/gorilla/mux"
 )
 
+type Projects struct {
+	Items []Project
+}
+
 type Project struct {
-	ID      string `json:"id"`
-	PodName string `json:"value"`
+	PodName string
+	SVCName string
+}
+
+type Service struct {
 }
 
 type Health struct {
@@ -35,12 +43,35 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pods := getPods(clientset, ns)
-	// print pods
+	svcs := getServices(clientset, ns)
+
+	fmt.Println(svcs.Items)
+
+	podsList := Projects{}
+	svcsList := Projects{}
+
+	for _, pod := range pods.Items {
+		podsStat := Project{PodName: pod.GetName()}
+		podsList.AddItem(podsStat)
+	}
+
+	for _, svc := range svcs.Items {
+		svcStat := Project{SVCName: svc.GetName()}
+		svcsList.AddItem(svcStat)
+	}
 
 	w.Write([]byte("## Checking Namespace -> " + ns + "\n"))
-	for _, pod := range pods.Items {
+	w.Write([]byte("#### List of Pods in Namespace -> " + ns + "\n"))
+	for _, pod := range podsList.Items {
 		// fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("Pod Name: " + pod.GetName() + "\n"))
+		w.Write([]byte("Pod Name: " + pod.PodName + "\n"))
+
+	}
+	w.Write([]byte("\n"))
+	w.Write([]byte("#### List of SVCs in Namespace -> " + ns + "\n"))
+	for _, pod := range svcsList.Items {
+		// fmt.Printf("[%d] %s\n", i, pod.GetName())
+		w.Write([]byte("SVC Name: " + pod.SVCName + "\n"))
 	}
 
 }
@@ -102,7 +133,7 @@ func returnHostname(w http.ResponseWriter, r *http.Request) {
 		hostname = "Unknown"
 	}
 
-	hostnameStr := "Hostname: " + hostname
+	hostnameStr := "I am running in this Hostname: " + hostname
 
 	// return the hostname in json format
 	if err := json.NewEncoder(w).Encode(hostnameStr); err != nil {
