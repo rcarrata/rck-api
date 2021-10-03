@@ -2,7 +2,6 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -45,35 +44,9 @@ func projectsHandler(w http.ResponseWriter, r *http.Request) {
 	pods := getPods(clientset, ns)
 	svcs := getServices(clientset, ns)
 
-	fmt.Println(svcs.Items)
+	// fmt.Println(svcs.Items)
 
-	podsList := Projects{}
-	svcsList := Projects{}
-
-	for _, pod := range pods.Items {
-		podsStat := Project{PodName: pod.GetName()}
-		podsList.AddItem(podsStat)
-	}
-
-	for _, svc := range svcs.Items {
-		svcStat := Project{SVCName: svc.GetName()}
-		svcsList.AddItem(svcStat)
-	}
-
-	w.Write([]byte("## Checking Namespace -> " + ns + "\n"))
-	w.Write([]byte("#### List of Pods in Namespace -> " + ns + "\n"))
-	for _, pod := range podsList.Items {
-		// fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("Pod Name: " + pod.PodName + "\n"))
-
-	}
-	w.Write([]byte("\n"))
-	w.Write([]byte("#### List of SVCs in Namespace -> " + ns + "\n"))
-	for _, pod := range svcsList.Items {
-		// fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("SVC Name: " + pod.SVCName + "\n"))
-	}
-
+	aggregateProject(pods, svcs, ns, w)
 }
 
 // Get objects from the Projects Ids from Path
@@ -93,15 +66,11 @@ func getProjectHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	pods := getPods(clientset, ns)
-	// print pods
+	svcs := getServices(clientset, ns)
 
-	w.WriteHeader(http.StatusOK)
+	// fmt.Println(svcs.Items)
 
-	w.Write([]byte("## Checking Namespace -> " + ns + "\n"))
-	for _, pod := range pods.Items {
-		// fmt.Printf("[%d] %s\n", i, pod.GetName())
-		w.Write([]byte("Pod Name: " + pod.GetName() + "\n"))
-	}
+	aggregateProject(pods, svcs, ns, w)
 
 }
 
@@ -122,6 +91,7 @@ func returnUnhealth(w http.ResponseWriter, r *http.Request) {
 }
 
 // Return the Hostname of the node where is running
+// TODO: Add the return JSON
 func returnHostname(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")

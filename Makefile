@@ -1,8 +1,8 @@
 all: build tag push
 test: lint unit-test
 
-NAME=in-cluster
-VERSION=0.9.1
+NAME=rck
+VERSION=0.2
 REGISTRY="quay.io/rcarrata"
 TOOL="docker"
 

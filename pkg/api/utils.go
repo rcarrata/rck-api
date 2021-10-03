@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
 )
@@ -48,8 +49,35 @@ func (project *Projects) AddItem(item Project) {
 	project.Items = append(project.Items, item)
 }
 
-func aggregateProject() {
-	
+func aggregateProject(pods *v1.PodList, svcs *v1.ServiceList, ns string, w http.ResponseWriter) {
+
+	podsList := Projects{}
+	svcsList := Projects{}
+
+	for _, pod := range pods.Items {
+		podsStat := Project{PodName: pod.GetName()}
+		podsList.AddItem(podsStat)
+	}
+
+	for _, svc := range svcs.Items {
+		svcStat := Project{SVCName: svc.GetName()}
+		svcsList.AddItem(svcStat)
+	}
+
+	w.Write([]byte("## Checking Namespace -> " + ns + "\n"))
+	w.Write([]byte("#### List of Pods in Namespace -> " + ns + "\n"))
+	for _, pod := range podsList.Items {
+		// fmt.Printf("[%d] %s\n", i, pod.GetName())
+		w.Write([]byte("Pod Name: " + pod.PodName + "\n"))
+
+	}
+	w.Write([]byte("\n"))
+	w.Write([]byte("#### List of SVCs in Namespace -> " + ns + "\n"))
+	for _, pod := range svcsList.Items {
+		// fmt.Printf("[%d] %s\n", i, pod.GetName())
+		w.Write([]byte("SVC Name: " + pod.SVCName + "\n"))
+	}
+
 }
 
 // Not using Viper in this version

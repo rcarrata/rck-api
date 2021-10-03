@@ -18,8 +18,8 @@ spec:
         app: rck
     spec:
       containers:
-      - image: quay.io/rcarrata/in-cluster:0.9.1
-        name: in-cluster
+      - image: quay.io/rcarrata/rck:0.2
+        name: rck
         resources: {}
         envFrom:
         - configMapRef:

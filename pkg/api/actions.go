@@ -18,7 +18,6 @@ func getPods(cl *kubernetes.Clientset, ns string) *v1.PodList {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	return pods
 
 }
@@ -35,7 +34,6 @@ func getPvcs(cl *kubernetes.Clientset, ns string) *v1.PersistentVolumeClaimList 
 	}
 
 	fmt.Println()
-
 	return pvcs
 }
 
@@ -48,4 +46,15 @@ func getServices(cl *kubernetes.Clientset, ns string) *v1.ServiceList {
 
 	fmt.Println()
 	return svcs
+}
+
+func getConfigMaps(cl *kubernetes.Clientset, ns string) *v1.ConfigMapList {
+	cms, err := cl.CoreV1().ConfigMaps(ns).List(context.TODO(), metav1.ListOptions{})
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println()
+	return cms
 }
