@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -21,7 +22,8 @@ type Service struct {
 }
 
 type Health struct {
-	Status string `json:"Status"`
+	Status     string `json:"Status"`
+	Monitoring string `json:"Monitoring"`
 }
 
 // Home Page Handler
@@ -77,15 +79,22 @@ func getProjectHandler(w http.ResponseWriter, r *http.Request) {
 // Return Healthy (future Prometheus integration)
 func returnHealth(w http.ResponseWriter, r *http.Request) {
 	// health := "Healthy"
-	health := Health{Status: "Healthy"}
+	health := Health{
+		Status:     "Healthy",
+		Monitoring: "Enabled",
+	}
 
+	fmt.Println(health)
 	sendJsonResponse(health, w)
 }
 
 // Return Unhealthy (future Prometheus integration)
 func returnUnhealth(w http.ResponseWriter, r *http.Request) {
 	// health := "Unhealth"
-	health := Health{Status: "Unhealth"}
+	health := Health{
+		Status:     "Unhealthy",
+		Monitoring: "Disabled",
+	}
 
 	sendJsonResponse(health, w)
 }
